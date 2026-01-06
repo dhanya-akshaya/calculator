@@ -8,20 +8,28 @@
     --bg:#f4f6fb;
     --card:#ffffff;
     --btn:#e0e0e0;
+    --btn-text:#000;
+    --display:#f0f0f0;
+    --display-text:#000;
     --op:#5a78e4;
     --eq:#1cc88a;
     --clr:#e74a3b;
     --text:#000;
 }
+
 .dark{
     --bg:#1e1e2f;
     --card:#2a2a3d;
     --btn:#3a3a55;
+    --btn-text:#ffffff;
+    --display:#3a3a55;
+    --display-text:#ffffff;
     --op:#7b9cff;
     --eq:#2ecc71;
     --clr:#ff6b6b;
-    --text:#fff;
+    --text:#ffffff;
 }
+
 body{
     margin:0;
     height:100vh;
@@ -32,22 +40,22 @@ body{
     font-family:Arial, sans-serif;
     color:var(--text);
 }
+
 .container{
     display:flex;
     gap:25px;
 }
+
 .calculator,.history{
     background:var(--card);
     padding:20px;
     border-radius:15px;
     box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
+
 .calculator{width:300px;}
-.history{
-    width:230px;
-    display:flex;
-    flex-direction:column;
-}
+.history{width:230px;display:flex;flex-direction:column;}
+
 #display{
     width:100%;
     height:55px;
@@ -57,7 +65,10 @@ body{
     padding-right:10px;
     border-radius:8px;
     border:none;
+    background:var(--display);
+    color:var(--display-text);
 }
+
 .toggle{
     text-align:right;
     margin-bottom:8px;
@@ -67,12 +78,15 @@ body{
     background:none;
     border:none;
     cursor:pointer;
+    color:var(--text);
 }
+
 .buttons{
     display:grid;
     grid-template-columns:repeat(5,1fr);
     gap:8px;
 }
+
 button{
     height:50px;
     font-size:15px;
@@ -80,21 +94,30 @@ button{
     border-radius:8px;
     cursor:pointer;
     background:var(--btn);
-    color:var(--text);
+    color:var(--btn-text);
 }
+
 .operator{background:var(--op);color:white;}
 .equal{background:var(--eq);color:white;grid-column:span 2;}
 .clear{background:var(--clr);color:white;}
-.history h3{text-align:center;}
+
+.history h3{
+    text-align:center;
+    color:var(--text);
+}
+
 .history-list{
     flex:1;
     overflow-y:auto;
     font-size:14px;
+    color:var(--text);
 }
+
 .history-list div{
     padding:5px 0;
-    border-bottom:1px solid #aaa;
+    border-bottom:1px solid #888;
 }
+
 .clear-history{
     margin-top:10px;
     height:35px;
