@@ -8,22 +8,20 @@
     --bg:#f4f6fb;
     --card:#ffffff;
     --btn:#e0e0e0;
-    --operator:#5a78e4;
-    --equal:#1cc88a;
-    --clear:#e74a3b;
+    --op:#5a78e4;
+    --eq:#1cc88a;
+    --clr:#e74a3b;
     --text:#000;
 }
-
 .dark{
     --bg:#1e1e2f;
     --card:#2a2a3d;
     --btn:#3a3a55;
-    --operator:#7b9cff;
-    --equal:#2ecc71;
-    --clear:#ff6b6b;
-    --text:#ffffff;
+    --op:#7b9cff;
+    --eq:#2ecc71;
+    --clr:#ff6b6b;
+    --text:#fff;
 }
-
 body{
     margin:0;
     height:100vh;
@@ -31,24 +29,18 @@ body{
     justify-content:center;
     align-items:center;
     background:var(--bg);
-    font-family:Arial, sans-serif;
+    font-family:Arial;
     color:var(--text);
 }
-
-.container{
-    display:flex;
-    gap:25px;
-}
-
+.container{display:flex;gap:25px;}
 .calculator,.history{
     background:var(--card);
     padding:20px;
     border-radius:15px;
     box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
-
-.calculator{ width:300px; }
-.history{ width:230px; display:flex; flex-direction:column; }
+.calculator{width:300px;}
+.history{width:230px;display:flex;flex-direction:column;}
 
 #display{
     width:100%;
@@ -59,7 +51,6 @@ body{
     padding-right:10px;
     border-radius:8px;
     border:none;
-    background:#f0f0f0;
 }
 
 .buttons{
@@ -67,7 +58,6 @@ body{
     grid-template-columns:repeat(5,1fr);
     gap:8px;
 }
-
 button{
     height:50px;
     font-size:15px;
@@ -77,27 +67,28 @@ button{
     background:var(--btn);
     color:var(--text);
 }
+.operator{background:var(--op);color:white;}
+.equal{background:var(--eq);color:white;grid-column:span 2;}
+.clear{background:var(--clr);color:white;}
 
-.operator{ background:var(--operator); color:white; }
-.equal{ background:var(--equal); color:white; grid-column:span 2; }
-.clear{ background:var(--clear); color:white; }
+.toggle{
+    text-align:right;
+    margin-bottom:5px;
+}
+.toggle button{
+    font-size:18px;
+    background:none;
+}
 
-.history h3{ text-align:center; }
-.history-list{ flex:1; overflow-y:auto; font-size:14px; }
-.history-list div{ padding:5px 0; border-bottom:1px solid #aaa; }
-
+.history h3{text-align:center;}
+.history-list{flex:1;overflow-y:auto;font-size:14px;}
+.history-list div{padding:5px 0;border-bottom:1px solid #aaa;}
 .clear-history{
     margin-top:10px;
     height:35px;
     border:none;
     border-radius:8px;
     background:#f6c23e;
-    cursor:pointer;
-}
-
-.toggle{
-    margin-bottom:10px;
-    text-align:right;
 }
 </style>
 </head>
@@ -108,7 +99,7 @@ button{
 
 <div class="calculator">
 <div class="toggle">
-<button onclick="toggleTheme()">Toggle Mode</button>
+<button onclick="toggleTheme()">☀️ / 🌙</button>
 </div>
 
 <input type="text" id="display" disabled>
@@ -129,7 +120,7 @@ button{
 <button onclick="append('7')">7</button>
 <button onclick="append('8')">8</button>
 <button onclick="append('9')">9</button>
-<button onclick="pi()">π</button>
+<button onclick="append(Math.PI)">π</button>
 <button class="operator" onclick="append('-')">−</button>
 
 <button onclick="append('4')">4</button>
@@ -157,38 +148,48 @@ button{
 </div>
 
 <script>
-const d=()=>document.getElementById("display");
+const display=document.getElementById("display");
+const historyBox=document.getElementById("history");
 
-function append(v){ d().value+=v; }
-function clearDisplay(){ d().value=""; }
+function append(v){ display.value+=v; }
+function clearDisplay(){ display.value=""; }
 
 function calculate(){
     try{
-        let e=d().value;
-        let r=eval(e);
-        d().value=r;
+        let exp=display.value;
+        let res=eval(exp);
+        display.value=res;
         let h=document.createElement("div");
-        h.innerText=e+" = "+r;
-        history.prepend(h);
-    }catch{ d().value="Error"; }
+        h.innerText=exp+" = "+res;
+        historyBox.prepend(h);
+    }catch{
+        display.value="Error";
+    }
 }
 
-function sqrt(){ d().value=Math.sqrt(d().value); }
-function square(){ d().value=Math.pow(d().value,2); }
-function power(){ d().value+="**"; }
-function reciprocal(){ d().value=1/d().value; }
+function sqrt(){ display.value=Math.sqrt(display.value); }
+function square(){ display.value=Math.pow(display.value,2); }
+function power(){ display.value+="**"; }
+function reciprocal(){ display.value=1/display.value; }
 
-function sin(){ d().value=Math.sin(d().value); }
-function cos(){ d().value=Math.cos(d().value); }
-function tan(){ d().value=Math.tan(d().value); }
-function log(){ d().value=Math.log10(d().value); }
-function pi(){ d().value+=Math.PI; }
+function sin(){ display.value=Math.sin(display.value); }
+function cos(){ display.value=Math.cos(display.value); }
+function tan(){ display.value=Math.tan(display.value); }
+function log(){ display.value=Math.log10(display.value); }
 
-function clearHistory(){ history.innerHTML=""; }
+function clearHistory(){ historyBox.innerHTML=""; }
 
 function toggleTheme(){
     document.body.classList.toggle("dark");
 }
+
+/* Keyboard support */
+document.addEventListener("keydown",e=>{
+    if("0123456789.+-*/".includes(e.key)) append(e.key);
+    if(e.key==="Enter") calculate();
+    if(e.key==="Backspace") display.value=display.value.slice(0,-1);
+    if(e.key==="Escape") clearDisplay();
+});
 </script>
 
 </body>
