@@ -29,10 +29,13 @@ body{
     justify-content:center;
     align-items:center;
     background:var(--bg);
-    font-family:Arial;
+    font-family:Arial, sans-serif;
     color:var(--text);
 }
-.container{display:flex;gap:25px;}
+.container{
+    display:flex;
+    gap:25px;
+}
 .calculator,.history{
     background:var(--card);
     padding:20px;
@@ -40,8 +43,11 @@ body{
     box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 .calculator{width:300px;}
-.history{width:230px;display:flex;flex-direction:column;}
-
+.history{
+    width:230px;
+    display:flex;
+    flex-direction:column;
+}
 #display{
     width:100%;
     height:55px;
@@ -52,7 +58,16 @@ body{
     border-radius:8px;
     border:none;
 }
-
+.toggle{
+    text-align:right;
+    margin-bottom:8px;
+}
+.toggle button{
+    font-size:20px;
+    background:none;
+    border:none;
+    cursor:pointer;
+}
 .buttons{
     display:grid;
     grid-template-columns:repeat(5,1fr);
@@ -70,25 +85,23 @@ button{
 .operator{background:var(--op);color:white;}
 .equal{background:var(--eq);color:white;grid-column:span 2;}
 .clear{background:var(--clr);color:white;}
-
-.toggle{
-    text-align:right;
-    margin-bottom:5px;
-}
-.toggle button{
-    font-size:18px;
-    background:none;
-}
-
 .history h3{text-align:center;}
-.history-list{flex:1;overflow-y:auto;font-size:14px;}
-.history-list div{padding:5px 0;border-bottom:1px solid #aaa;}
+.history-list{
+    flex:1;
+    overflow-y:auto;
+    font-size:14px;
+}
+.history-list div{
+    padding:5px 0;
+    border-bottom:1px solid #aaa;
+}
 .clear-history{
     margin-top:10px;
     height:35px;
     border:none;
     border-radius:8px;
     background:#f6c23e;
+    cursor:pointer;
 }
 </style>
 </head>
@@ -99,7 +112,7 @@ button{
 
 <div class="calculator">
 <div class="toggle">
-<button onclick="toggleTheme()">☀️ / 🌙</button>
+<button id="themeBtn" onclick="toggleTheme()">🌙</button>
 </div>
 
 <input type="text" id="display" disabled>
@@ -150,6 +163,7 @@ button{
 <script>
 const display=document.getElementById("display");
 const historyBox=document.getElementById("history");
+const themeBtn=document.getElementById("themeBtn");
 
 function append(v){ display.value+=v; }
 function clearDisplay(){ display.value=""; }
@@ -181,6 +195,7 @@ function clearHistory(){ historyBox.innerHTML=""; }
 
 function toggleTheme(){
     document.body.classList.toggle("dark");
+    themeBtn.textContent=document.body.classList.contains("dark") ? "☀️" : "🌙";
 }
 
 /* Keyboard support */
