@@ -24,9 +24,8 @@ The website is hosted using GitHub Pages and is implemented as a fully client-si
 ## Live Demo
 The project can be accessed at:
 
-https://your-username.github.io/calculator/
+https://dhanya-akshaya.github.io/calculator/
 
-(Replace `your-username` with your GitHub username)
 
 ## Project Structure
 calculator/
